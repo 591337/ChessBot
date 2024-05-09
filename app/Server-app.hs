@@ -5,7 +5,7 @@ import qualified Network.WebSockets as WS
 import Control.Monad (forever)
 import Control.Exception (finally)
 
-import Server.Parser (parseInput)
+import MoveParser(parseInput)
 
 import Data.Text (Text, pack, unpack)
 import Board (newBoard, movePice, bestMoveSearch, Board)
