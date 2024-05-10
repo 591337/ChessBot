@@ -8,7 +8,7 @@ import Control.Monad.Freer
 import qualified UCI.Spesification as OutCommand
 import qualified UCI.Spesification as InCommand
 import qualified UCI.Spesification as IdInfo
-import Board ( Board, newBoard, movePice, evaluation )
+import Board ( Board, newBoard, movePice, evaluation, bestMoveSearch )
 
 data ControllerStatus = UnInitiated | Ready | Running
     deriving (Show)
@@ -53,16 +53,17 @@ controllerLoop = do
         InCommand.UciNewGame -> do
             modify (\s -> s {board = newBoard})
             b <- gets board
-            loggString $ show b
-            loggString $ show $ evaluation b
             controllerLoop
         InCommand.Position ms -> do
             b <- gets board
             let nb = foldl (flip movePice) b ms
             modify (\s -> s {board = nb})
             b <- gets board
-            loggString $ show b
-            loggString $ show $ evaluation b
+            controllerLoop
+        InCommand.Go -> do
+            b <- gets board
+            let move = bestMoveSearch b 
+            outInstruction $ OutCommand.BestMove move
             controllerLoop
         _ -> do
             controllerLoop

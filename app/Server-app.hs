@@ -12,6 +12,7 @@ import Board (newBoard, movePice, bestMoveSearch, Board)
 
 main :: IO ()
 main = do
+    putStrLn "Server running"
     WS.runServer "127.0.0.1" 9160 application
 
 application :: WS.PendingConnection -> IO ()

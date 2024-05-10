@@ -6,11 +6,20 @@
   <title>chessboardjs Example #5001 - Play Random Computer</title>
   <base href="../" />
   <link rel="stylesheet" href="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.css" integrity="sha384-q94+BZtLrkL1/ohfjR8c6L+A6qzNH9R2hBLwyoAfu3i/WCvQjzL2RQJ3uNHDISdU" crossorigin="anonymous">
+  <style>
+  .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  </style>
 </head>
 <body>
 
 <!--- Begin Example HTML ------------------------------------------------------>
-<div id="myBoard" style="width: 400px"></div>
+<div class="container">
+    <div id="myBoard" style="width: 400px"></div>
+</div>
 <!--- End Example HTML -------------------------------------------------------->
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
@@ -20,16 +29,17 @@
 // --- Begin Example JS --------------------------------------------------------
 // NOTE: this example uses the chess.js library:
 // https://github.com/jhlywa/chess.js
+const url = window.location.hostname === 'localhost' || window.location.hostname === '' ? 'http://localhost:9160' : 'https://chess.sterri.cc/ws';
 
 var board = null
 var game = new Chess()
-let webSocket = new WebSocket("http://localhost:9160")
+let webSocket = new WebSocket(url)
 
 function formatEventData(data) {
     return {
         from: data.slice(0,2),
         to: data.slice(2,4),
-        promotion: (data.slice(5) || undefined)
+        promotion: (data.slice(4) || undefined)
     }
 }
 

@@ -30,7 +30,6 @@ boardPositionParser :: Parser BoardPosition
 boardPositionParser = do
     x <- fileParser
     y <- digitChar
-    --when (rank < '1' || rank > '8') $ fail "Rank out of bounds"
     let col = fromEnum x - fromEnum 'a' + 1
     let row = read [y]
     return (BoardPosition col row)
